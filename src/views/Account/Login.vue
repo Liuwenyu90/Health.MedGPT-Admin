@@ -30,21 +30,20 @@ export default {
 	methods: {
 		onSubmitLogin() {
 			let _that = this
-
 			//发送请求API
 			server.send({
-				"url": "api/user/login", "method": "POST",
+				"url": "api/user/list", "method": "POST",
 				"data": {
 					loginName: this.loginName,
 					loginPass: this.loginPass
 				},
 				"success": function (res) {
 					// res = { "code": 200, "msg": "登录成功", "data": { "token": "1234567890", "token": "1234567890", "expireDate": "2024-4-28 18:00:00" }
-					if (res.code == 200 && res.data != null) {
-						localStorage.setItem('LoginUser', JSON.stringify(loginUser))
+					if (res.code == 20000 && res.data != null) {
+						server.setCache('LoginUser', JSON.stringify(res.data))
 						location.href = '/'
 					} else {
-						alert(res.msg)
+						server.alert(res.msg)
 					}
 				},
 				"fail": function (res) {

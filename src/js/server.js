@@ -75,7 +75,7 @@ export default {
                 }
 
                 if (typeof (request.complete) == "function") {
-                    request.complete(response.data)
+                    request.complete(error)
                 }
 
                 // 处理响应数据
@@ -85,4 +85,100 @@ export default {
             });
 
     },
+
+	//提示
+	toast: function (content, icon, options) {
+		icon = icon != null ? icon : 0;
+		layer.msg(content, {
+			icon: icon,
+			zIndex: layer.zIndex,
+			shade: 0.5,
+			shadeClose: options != null && options.close === false ? false : true,
+		});
+	},
+	//提示
+	alert: function (content, options, callback) {
+		var index = layer.alert(content, {
+			icon: options != null && options.icon != null ? options.icon : 0,
+			area: options != null && options.width != null ? options.width : "auto",
+			zIndex: layer.zIndex
+		}, function () {
+			layer.close(index);
+			if (callback != null) {
+				callback();
+			}
+		});
+	},
+	//确认框
+	confirm: function (content, options, successFunc, errorFunc) {
+		var index = layer.confirm(content, {
+			title: options != null && options.title != null ? options.title : "提示",
+			icon: options != null && options.icon != null ? options.icon : 3,
+			btn: options != null && options.btn != null ? options.btn : ['确定', '取消'],
+			area: options != null && options.area != null ? options.area : "auto",
+			zIndex: layer.zIndex
+		}, function () {
+			layer.close(index);
+			if (successFunc != null) {
+				successFunc();
+			}
+		}, function () {
+			if (errorFunc != null) {
+				errorFunc();
+			}
+		});
+	},
+	//打开页面弹框
+	dialog: function (name, url, width, height, callback) {
+		if (width == null) {
+			width = "100%";
+		}
+		if (height == null) {
+			height = "100%";
+		}
+
+		layer.open({
+			type: 2,
+			title: name,
+			shadeClose: false,
+			shade: 0.3,
+			maxmin: false,
+			area: [width, height],
+			content: url,
+			zIndex: layer.zIndex,
+			success: function (layero) {
+				layer.setTop(layero);
+			},
+			end: function () {
+				if (callback != null) {
+					callback();
+				}
+			}
+		});
+	},
+
+	//获取缓存数据
+	getCache: function (key) {
+		var value = localStorage.getItem(key);
+		if (value != null) {
+			try {
+				return JSON.parse(value);
+			} catch (e) {
+				return value;
+			}
+		}
+		return null;
+	},
+	//设置缓存数据
+	setCache: function (key, value) {
+		localStorage.setItem(key, JSON.stringify(value));
+	},
+	//移除缓存
+	removeCache: function (key) {
+		localStorage.removeItem(key);
+	},
+	//清除全部缓存
+	clearCache: function () {
+		localStorage.clear();
+	},
 }
