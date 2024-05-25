@@ -13,6 +13,8 @@ import 'element-plus/dist/index.css'
 // 导入路由配置
 import router from './js/router.js'
 
+//导入弹出框样式
+import 'vue3-layer/dist/s3Layer.css';
 
 const app = createApp(App)
 

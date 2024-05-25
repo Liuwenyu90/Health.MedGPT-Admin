@@ -1,22 +1,23 @@
 <template>
-	<div class="main_container">
-		<div style="margin-top:20px">账号：{{loginUser.LoginName}}</div>
-		<div style="margin-top:20px">密码：{{loginUser.LoginPass}}</div>
+	<div style="padding: 15px 20px;">
+		<div style="padding: 20px; background-color: #ffffff; border-radius: 5px;">
+			<span class="page_title">主页</span>
+		</div>
 	</div>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				loginUser: null
-			}
-		},
-		created() {
-			this.loginUser = JSON.parse(localStorage.getItem("LoginUser"))
-		},
-		methods: {
-
+export default {
+	data() {
+		return {
+			loginUser: null
 		}
+	},
+	created() {
+		this.loginUser = JSON.parse(localStorage.getItem("LoginUser"))
+	},
+	methods: {
+
 	}
+}
 </script>
