@@ -89,10 +89,10 @@ export default {
 			localStorage.removeItem('LoginUser')
 			window.parent.location.href = "/login"
 		},
-		onOpenAccountCenterBox(){
+		onOpenAccountCenterBox() {
 			document.getElementById("div_account_center_menu").style.display = "block"
 		},
-		onCloseAccountCenterBox(){
+		onCloseAccountCenterBox() {
 			document.getElementById("div_account_center_menu").style.display = "none"
 		}
 	}
@@ -117,9 +117,10 @@ export default {
 				<div id="div_account_center_menu"
 					style="position: absolute; top:60px; right:0px; padding:20px; width:160px; background-color: #eee; box-shadow: 0px 5px 10px #aaa; display: none"
 					@mouseover="onOpenAccountCenterBox" @mouseout="onCloseAccountCenterBox">
-					<div class="btn_exit" @click="onOpenPage('/SysUser/AccountCenter')">账号中心</div>
-					<div class="btn_exit" style="margin-top:10px" @click="onOpenPage('/SysUser/EditPassword')">修改密码</div>
-					<div class="btn_exit" style="margin-top:10px" @click="onExit()">退出</div>
+					<div class="btn_account_menu" @click="onOpenPage('/SysUser/AccountCenter')">账号中心</div>
+					<div class="btn_account_menu" style="margin-top:10px" @click="onOpenPage('/SysUser/EditPassword')">
+						修改密码</div>
+					<div class="btn_account_menu" style="margin-top:10px" @click="onExit()">退出</div>
 				</div>
 			</div>
 		</div>
@@ -158,20 +159,6 @@ export default {
 
 
 <style>
-.btn_exit {
-	padding: 0px 20px;
-	line-height: 40px;
-	font-size: 15px;
-	background-color: #ff6666;
-	color: #fff;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-.btn_exit:hover {
-	background-color: #f98989;
-}
-
 .first_menu {
 	line-height: 40px;
 	color: #777;
@@ -199,4 +186,23 @@ export default {
 .second_menu_active:hover {
 	background-color: #e6f4ff;
 }
+
+
+.btn_account_menu {
+	padding: 0px 20px;
+	line-height: 35px;
+	font-size: 15px;
+	background-color: #fff;
+	border: solid 1px #eee;
+	color: #333;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+}
+
+.btn_account_menu:hover {
+	background-color: #f98989;
+	color:#fff;
+}
+
 </style>

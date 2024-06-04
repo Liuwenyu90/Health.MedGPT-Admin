@@ -95,9 +95,7 @@ const onPressLoginPass = function (event) {
 	box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.25);
 }
 
-input::-webkit-input-safebox-button {
-	display: none;
-}
+
 </style>
 
 <template>

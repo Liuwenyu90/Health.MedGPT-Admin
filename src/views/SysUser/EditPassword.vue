@@ -16,14 +16,21 @@ export default {
 	},
 	data() {
 		return {
-			loginUser: null
+			loginUser: null,
+			oldPassword: null,
+			newPassword: null,
+			confirmPassword: null,
+
+			eyeIndex: -1
 		}
 	},
 	created() {
 		this.loginUser = JSON.parse(localStorage.getItem("LoginUser"))
 	},
 	methods: {
+		onSubmitEdit() {
 
+		}
 	}
 }
 
@@ -37,25 +44,60 @@ export default {
 
 			<div style="margin:30px auto 0px auto; width:400px">
 				<div class="zhiwei_flex">
-					<div style="width:100px; color:#777777; line-height: 30px">原密码</div>
-					<div style="width:100px; flex:1">
-						<el-input></el-input>
+					<div style="width:100px; color:#777777; line-height: 40px">原密码</div>
+					<div style="flex:1; ">
+						<div class="zhiwei_flex" style="border: solid 1px #ccc; border-radius: 5px;">
+							<div style="flex:1; padding:0px 10px; height: 40px">
+								<input v-if="eyeIndex == 0" v-model="oldPassword" type="input" class="input_txt"
+									maxlength="32"></input>
+								<input v-else v-model="oldPassword" type="password" class="input_pass"
+									maxlength="32" placeholder="请输入原密码"></input>
+							</div>
+							<div v-if="oldPassword != null" style="padding: 10px 10px 10px 0px; cursor: pointer;" @mousedown="eyeIndex = 0"
+								@mouseup="eyeIndex = -1">
+								<img v-if="eyeIndex == 0" class="icon_see" src="/images/icons/eye_open.png" />
+								<img v-else class="icon_see" src="/images/icons/eye_close.png" />
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="zhiwei_flex" style="margin-top:20px; line-height: 30px;">
+				<div class="zhiwei_flex" style="margin-top:20px; line-height: 40px;">
 					<div style="width:100px; color:#777777">新密码</div>
-					<div style="width:100px; flex:1">
-						<el-input></el-input>
+					<div style="flex:1">
+						<div class="zhiwei_flex" style="border: solid 1px #ccc; border-radius: 5px;">
+							<div style="flex:1; padding:0px 10px; height: 40px">
+								<div v-if="eyeIndex == 1" style="line-height: 40px;">{{ newPassword }}</div>
+								<input v-else v-model="newPassword" type="password" class="input_pass"
+									maxlength="32" placeholder="请输入新密码"></input>
+							</div>
+							<div v-if="newPassword != null" style="padding: 10px 10px 10px 0px; cursor: pointer;" @mousedown="eyeIndex = 1"
+								@mouseup="eyeIndex = -1">
+								<img v-if="eyeIndex == 1" class="icon_see" src="/images/icons/eye_open.png" />
+								<img v-else class="icon_see" src="/images/icons/eye_close.png" />
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="zhiwei_flex" style="margin-top:20px; line-height: 30px">
+				<div class="zhiwei_flex" style="margin-top:20px; line-height: 40px">
 					<div style="width:100px; color:#777777">重复密码</div>
-					<div style="width:100px; flex:1">
-						<el-input></el-input>
+					<div style="flex:1">
+						<div class="zhiwei_flex" style="border: solid 1px #ccc; border-radius: 5px;">
+							<div style="flex:1; padding:0px 10px; height: 40px">
+								<div v-if="eyeIndex == 2" style="line-height: 40px;">{{ comfirmPassword }}</div>
+								<input v-else v-model="comfirmPassword" type="password" class="input_pass"
+									maxlength="32" placeholder="请再次输入密码"></input>
+							</div>
+							<div v-if="comfirmPassword != null" style="padding: 10px 10px 10px 0px; cursor: pointer;" @mousedown="eyeIndex = 2"
+								@mouseup="eyeIndex = -1">
+								<img v-if="eyeIndex == 2" class="icon_see" src="/images/icons/eye_open.png" />
+								<img v-else class="icon_see" src="/images/icons/eye_close.png" />
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="zhiwei_flex_center" style="margin-top:20px; line-height: 30px">
-					<el-button type="danger">确认修改</el-button>
+					<el-button type="danger" style="margin-top:30px; width:160px; height:40px;"
+						@click="onSubmitEdit">确认修改</el-button>
 				</div>
 			</div>
 		</div>
@@ -63,4 +105,37 @@ export default {
 </template>
 
 
-<style></style>
+<style>
+.input_txt {
+
+	line-height: 38px;
+	height: 38px;
+	border-width: 0px;
+	width: 100%;
+	font-size: 16px;
+}
+
+.input_pass {
+	line-height: 38px;
+	height: 38px;
+	border-width: 0px;
+	width: 100%;
+	font-size: 20px;
+	letter-spacing: 2px;
+}
+
+.input_pass::placeholder {
+	line-height: 38px;
+	height: 38px;
+	border-width: 0px;
+	width: 100%;
+	font-size: 14px;
+	letter-spacing: 0px;
+	color:#aaa
+}
+
+.icon_see {
+	width: 18px;
+	height: 18px;
+}
+</style>
