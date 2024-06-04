@@ -39,7 +39,7 @@ const onGoLogin = function () {
 				password: password.value
 			},
 			success(res) {
-				if (res.code == 20000 && res.data != null) {
+				if (res.code == 200 && res.data != null) {
 					//保存token
 					server.setCache("LoginUser", res.data)
 					//记住密码

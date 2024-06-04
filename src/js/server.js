@@ -3,7 +3,6 @@ import sysConfig from '/src/config/sysConfig.js';
 import {layer} from 'vue3-layer';
 
 export default {
-
     _getHeader() {
         var _loginUser = this.getCache("LoginUser");
         var _loginToken = "";
@@ -12,7 +11,8 @@ export default {
         }
         var headers = {
             "Content-Type": "multipart/form-data",
-            "loginToken": _loginToken
+            "loginToken": _loginToken,
+            "Authorization": "Bearer " + _loginToken
         };
         return headers;
     },

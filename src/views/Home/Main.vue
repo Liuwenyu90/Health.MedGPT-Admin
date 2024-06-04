@@ -2,27 +2,30 @@
 import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue';
 import * as icon from '@element-plus/icons-vue'
-const router = useRouter();
+
 export default {
 	setup() {
 		const router = useRouter();
 		const firstMenuId = ref(0);
 		const secondMenuId = ref(0);
 
-		//跳转页面
-		const onChangeMenu = (_menu) => {
-			secondMenuId.value = _menu.MenuId
-			router.push(_menu.MenuUrl);
-		};
-
 		return {
 			firstMenuId,
 			secondMenuId,
-			onChangeMenu
+			//跳转菜单
+			onChangeMenu(_menu) {
+				secondMenuId.value = _menu.MenuId
+				router.push(_menu.MenuUrl);
+			},
+			//跳转页面
+			onOpenPage(_pageUrl) {
+				router.push(_pageUrl);
+			}
 		}
 	},
 	data() {
 		return {
+			showAccountCenter: false,
 			currentUrl: null,
 			loginUser: null,
 			win: {
@@ -53,7 +56,8 @@ export default {
 		})
 
 		//激活当前菜单
-		this.toActiveCurrentMenu()
+		this.toActiveCurrentMenu();
+
 	},
 	beforeDestroy() {
 		window.removeEventListener('resize', this.handleResize);
@@ -84,6 +88,12 @@ export default {
 		onExit() {
 			localStorage.removeItem('LoginUser')
 			window.parent.location.href = "/login"
+		},
+		onOpenAccountCenterBox(){
+			document.getElementById("div_account_center_menu").style.display = "block"
+		},
+		onCloseAccountCenterBox(){
+			document.getElementById("div_account_center_menu").style.display = "none"
 		}
 	}
 }
@@ -95,12 +105,23 @@ export default {
 	<div class="zhiwei_flex_between"
 		style="line-height: 60px; border-bottom: solid 1px #ddd; position: fixed; z-index: 100000; top:0px; left:0px; right:0px; background-color: #fff;">
 		<div style="padding:0px 20px; font-weight: 700; font-size: 24px; font-family:宋体">MedGPT综合管理平台</div>
-		<div class="zhiwei_flex_end" style="padding:10px 20px">
-			<div class="zhiwei_flex" style="padding:0px 10px; line-height: 40px;">
-				<img src="/public/images/icons/headimg.png" style="margin:10px 5px; width:20px; height:20px; border-radius: 20px; background-color: #0080ff;"/>
+		<div class="zhiwei_flex_end" style="padding:0px 20px">
+			<!-- 个人中心 -->
+			<div class="zhiwei_flex_center"
+				style="padding:0px; width:120px; line-height: 60px; cursor: pointer; position: relative; background-color: #f0f0f0;"
+				@mouseover="onOpenAccountCenterBox" @mouseout="onCloseAccountCenterBox">
+				<img src="/public/images/icons/headimg.png"
+					style="margin:10px 5px; width:20px; height:20px; border-radius: 20px; background-color: #0080ff;" />
 				<span>{{ loginUser.NickName }}</span>
+				<!-- 个人中心菜单 -->
+				<div id="div_account_center_menu"
+					style="position: absolute; top:60px; right:0px; padding:20px; width:160px; background-color: #eee; box-shadow: 0px 5px 10px #aaa; display: none"
+					@mouseover="onOpenAccountCenterBox" @mouseout="onCloseAccountCenterBox">
+					<div class="btn_exit" @click="onOpenPage('/SysUser/AccountCenter')">账号中心</div>
+					<div class="btn_exit" style="margin-top:10px" @click="onOpenPage('/SysUser/EditPassword')">修改密码</div>
+					<div class="btn_exit" style="margin-top:10px" @click="onExit()">退出</div>
+				</div>
 			</div>
-			<div class="btn_exit" @click="onExit()">退出</div>
 		</div>
 	</div>
 
