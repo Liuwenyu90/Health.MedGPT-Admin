@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue';
 import * as icon from '@element-plus/icons-vue'
+import server from '@/js/server';
 
 export default {
 	setup() {
@@ -25,6 +26,7 @@ export default {
 	},
 	data() {
 		return {
+			fileHost: server.FileHost(),
 			showAccountCenter: false,
 			currentUrl: null,
 			loginUser: null,
@@ -39,22 +41,9 @@ export default {
 		window.addEventListener('resize', this.handleResize);
 		this.loginUser = JSON.parse(localStorage.getItem("LoginUser"))
 
-		this.menuList.push({
-			MenuId: 11,
-			MenuName: "会员管理",
-			MenuIcon: "",
-			MenuUrl: "",
-			ChildList: [{
-				MenuId: 1101,
-				MenuName: "添加会员",
-				MenuUrl: "/user/add",
-			}, {
-				MenuId: 1102,
-				MenuName: "会员列表",
-				MenuUrl: "/user/list",
-			}]
-		})
-
+		//加载菜单列表
+		this.LoadMenu();
+		
 		//激活当前菜单
 		this.toActiveCurrentMenu();
 
@@ -63,6 +52,45 @@ export default {
 		window.removeEventListener('resize', this.handleResize);
 	},
 	methods: {
+		//加载菜单列表
+		LoadMenu() {
+			let _that = this
+			server.send({
+				"url": "/sys/account/getmenu",
+				success(res) {
+					if (res.code == 200 && res.data != null) {
+						let _menuList = []
+						for (var i = 0; i < res.data.length; i++) {
+							if (res.data[i].ParentId == 0) {
+								let menuModel = {
+									MenuId: res.data[i].MenuId,
+									MenuName: res.data[i].MenuName,
+									MenuIcon: res.data[i].MenuIcon,
+									MenuUrl: res.data[i].MenuUrl,
+									ChildList: []
+								};
+
+								//添加二级菜单
+								for (var j = 0; j < res.data.length; j++) {
+									if (res.data[i].MenuId == res.data[j].ParentId) {
+										menuModel.ChildList.push({
+											MenuId: res.data[j].MenuId,
+											MenuName: res.data[j].MenuName,
+											MenuIcon: res.data[j].MenuIcon,
+											MenuUrl: res.data[j].MenuUrl
+										})
+									}
+								}
+								_menuList.push(menuModel)
+							}
+						}
+						_that.menuList = _menuList
+					} else {
+						server.toast(res.msg, 2)
+					}
+				}
+			})
+		},
 		handleResize() {
 			this.win = {
 				width: window.innerWidth,
@@ -108,11 +136,13 @@ export default {
 		<div class="zhiwei_flex_end" style="padding:0px 20px">
 			<!-- 个人中心 -->
 			<div class="zhiwei_flex_center"
-				style="padding:0px; width:120px; line-height: 60px; cursor: pointer; position: relative; background-color: #f0f0f0;"
+				style="padding:0px 10px; width:120px; line-height: 60px; cursor: pointer; position: relative; background-color: #f0f0f0;"
 				@mouseover="onOpenAccountCenterBox" @mouseout="onCloseAccountCenterBox">
-				<img src="/public/images/icons/headimg.png"
-					style="margin:10px 5px; width:20px; height:20px; border-radius: 20px; background-color: #0080ff;" />
-				<span>{{ loginUser.NickName }}</span>
+				<img :src="fileHost + loginUser.HeadImg"
+					style="margin: 8px 5px; width:25px; min-width:25px; height:25px; border-radius: 25px; background-color: #0080ff;"
+					onerror="this.src='/images/icons/headimg.png'" />
+
+				<span class="auto_hidden">{{ loginUser.NickName }}</span>
 				<!-- 个人中心菜单 -->
 				<div id="div_account_center_menu"
 					style="position: absolute; top:60px; right:0px; padding:20px; width:160px; background-color: #eee; box-shadow: 0px 5px 10px #aaa; display: none"
@@ -202,7 +232,6 @@ export default {
 
 .btn_account_menu:hover {
 	background-color: #f98989;
-	color:#fff;
+	color: #fff;
 }
-
 </style>
