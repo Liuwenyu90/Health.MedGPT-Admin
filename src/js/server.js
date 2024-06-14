@@ -1,10 +1,9 @@
 import axios from 'axios';
-import sysConfig from '/src/config/sysConfig.js';
 import { layer } from 'vue3-layer';
 
 export default {
 	//文件服务器域名
-	FileHost() { return sysConfig.apiHost },
+	FileHost() { return import.meta.env.VITE_API_HOST },
 	//获取统一请求头
 	GetHeader() {
 		var _loginUser = this.getCache("LoginUser");
@@ -28,7 +27,7 @@ export default {
 				zIndex: layer.zIndex
 			});
 		}
-		var _url = request.host != null ? request.host : sysConfig.apiHost;
+		var _url = request.host != null ? request.host : import.meta.env.VITE_API_HOST;
 		var _method = request.method != null ? request.method : "post";
 		if (_url.lastIndexOf("/") == _url.length - 1) {
 			if (request.url.indexOf("/") == 0) {
