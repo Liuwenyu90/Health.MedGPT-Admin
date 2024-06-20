@@ -14,10 +14,11 @@
     "element-plus": "^2.7.2",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
-    "vue3-layer": "^1.0.18"
+    "vue3-layer": "^1.0.18",
+    "webpack-dev-server": "^2.9.7"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
-    "vite": "^5.2.8"
+    "vite": "^5.2.13"
   }
 }

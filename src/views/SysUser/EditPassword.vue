@@ -2,6 +2,8 @@
 import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue';
 import * as icon from '@element-plus/icons-vue'
+import server from '@/js/server';
+import util from '../../js/util.js';
 
 export default {
 	setup() {
@@ -18,8 +20,8 @@ export default {
 		return {
 			loginUser: null,
 			oldPassword: null,
-			newPassword: null,
-			confirmPassword: null,
+			newpassword: null,
+			comfirmPassword: null,
 
 			eyeIndex: -1
 		}
@@ -28,8 +30,35 @@ export default {
 		this.loginUser = JSON.parse(localStorage.getItem("LoginUser"))
 	},
 	methods: {
+	
 		onSubmitEdit() {
+			let _that = this
+			server.send({
+				"url": "/sys/account/EditPassword",
+				loading: true,
+				data: {
+					password: String(_that.oldPassword),
+					newPassword: String(_that.newpassword),
+					checkNewPassword: String(_that.comfirmPassword)
+				},
+				success(res) {
+					if (res.code == 200 && res.data === true) {
+						server.toast("修改成功", 1)
 
+						//更新用户资料
+						//***************************************
+						// console.log('789');
+						util.ReLoadLoginUser();
+						//跳转主页
+						// console.log('123');
+						_that.eyeIndex = -1;
+						// console.log('456');
+						window.parent.location.href = "/index";
+					} else {
+						server.toast(res.msg, 2)
+					}
+				}
+			})
 		}
 	}
 }
@@ -66,11 +95,11 @@ export default {
 					<div style="flex:1">
 						<div class="zhiwei_flex" style="border: solid 1px #ccc; border-radius: 5px;">
 							<div style="flex:1; padding:0px 10px; height: 40px">
-								<div v-if="eyeIndex == 1" style="line-height: 40px;">{{ newPassword }}</div>
-								<input v-else v-model="newPassword" type="password" class="input_pass"
+								<div v-if="eyeIndex == 1" style="line-height: 40px;">{{ newpassword }}</div>
+								<input v-else v-model="newpassword" type="password" class="input_pass"
 									maxlength="32" placeholder="请输入新密码"></input>
 							</div>
-							<div v-if="newPassword != null" style="padding: 10px 10px 10px 0px; cursor: pointer;" @mousedown="eyeIndex = 1"
+							<div v-if="newpassword != null" style="padding: 10px 10px 10px 0px; cursor: pointer;" @mousedown="eyeIndex = 1"
 								@mouseup="eyeIndex = -1">
 								<img v-if="eyeIndex == 1" class="icon_see" src="/images/icons/eye_open.png" />
 								<img v-else class="icon_see" src="/images/icons/eye_close.png" />
