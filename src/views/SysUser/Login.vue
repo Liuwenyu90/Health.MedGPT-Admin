@@ -90,7 +90,7 @@ const onPressLoginPass = function (event) {
 	padding: 50px 20px;
 	margin-top: 20px;
 	width: 600px;
-	background: rgba(245, 245, 245, 1);
+	background: rgba(255, 255, 255, 1);
 	border-radius: 2px;
 	box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.25);
 }
@@ -99,7 +99,7 @@ const onPressLoginPass = function (event) {
 </style>
 
 <template>
-	<div style="width:100%; height:100%; background: linear-gradient(to bottom, #008AD3, #008AD3);
+	<div style="width:100%; height:100%; background: linear-gradient(to bottom, #3597FF, #3597FF);
 		 background-repeat: no-repeat;; background-size: 100% 100%;">
 		<div style="z-index:101; position:absolute; left:50%; top: 40%; transform: translate(-50%, -50%);">
 			<div class="login_main">

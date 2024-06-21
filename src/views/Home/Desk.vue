@@ -131,21 +131,21 @@ export default {
 <template>
 	<!-- 顶部菜单 -->
 	<div class="zhiwei_flex_between"
-		style="line-height: 60px; border-bottom: solid 1px #ddd; position: fixed; z-index: 100000; top:0px; left:0px; right:0px; background-color: #fff;">
-		<div style="padding:0px 20px; font-weight: 700; font-size: 24px; font-family:宋体">MedGPT综合管理平台</div>
+		style="line-height: 60px; border-bottom: solid 1px #ddd; position: fixed; z-index: 100000; top:0px; left:0px; right:0px; background-color: #3697FF;">
+		<div style="padding:0px 20px; font-weight: 700; font-size: 24px; font-family:宋体; color:#fff">MedGPT综合管理平台</div>
 		<div class="zhiwei_flex_end" style="padding:0px 20px">
 			<!-- 个人中心 -->
-			<div class="zhiwei_flex_center"
-				style="padding:0px 10px; width:120px; line-height: 60px; cursor: pointer; position: relative; background-color: #f0f0f0;"
+			<div class="btn_account_info zhiwei_flex_center"
+				style="padding:0px 10px; width:120px; line-height: 60px; cursor: pointer; position: relative;"
 				@mouseover="onOpenAccountCenterBox" @mouseout="onCloseAccountCenterBox">
 				<img :src="fileHost + loginUser.HeadImg"
-					style="margin: 8px 5px; width:25px; min-width:25px; height:25px; border-radius: 25px; background-color: #0080ff;"
+					style="padding: 2px;;margin: 8px 5px; width:21px; min-width:21px; height:21px; border-radius: 21px; background-color: #fff;"
 					onerror="this.src='/images/icons/headimg.png'" />
 
 				<span class="auto_hidden">{{ loginUser.NickName }}</span>
 				<!-- 个人中心菜单 -->
 				<div id="div_account_center_menu"
-					style="position: absolute; top:60px; right:0px; padding:20px; width:160px; background-color: #eee; box-shadow: 0px 5px 10px #aaa; display: none"
+					style="position: absolute; top:60px; right:0px; padding:20px; width:160px; background-color: #00a2f3; box-shadow: 0px 5px 10px #aaa; display: none"
 					@mouseover="onOpenAccountCenterBox" @mouseout="onCloseAccountCenterBox">
 					<div class="btn_account_menu" @click="onOpenPage('/SysUser/AccountCenter')">账号中心</div>
 					<div class="btn_account_menu" style="margin-top:10px" @click="onOpenPage('/SysUser/EditPassword')">
@@ -215,6 +215,15 @@ export default {
 
 .second_menu_active:hover {
 	background-color: #e6f4ff;
+}
+
+.btn_account_info {
+	color:#fff
+}
+
+.btn_account_info:hover {
+	background-color: #fff;
+	color:#000
 }
 
 
