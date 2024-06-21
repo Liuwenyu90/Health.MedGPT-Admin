@@ -16,7 +16,7 @@ const childRouters = [
 	{ name: '助手列表', path: '/Prompt/List', component: () => import('../views/Prompt/List.vue') },
 	{ name: '会话设置', path: '/Talk/Setup', component: () => import('../views/Talk/Setup.vue') },
 	{ name: '会话列表', path: '/Talk/List', component: () => import('../views/Talk/List.vue') },
-	{ name: '问诊对话', path: '/Talk/Index', component: () => import('../views/Talk/Index.vue') },
+	{ name: '问诊对话', path: '/Talk/Index', component: () => import('../views/Talk/Index1.vue') },
 	{ name: '医生列表', path: '/Doctor/List', component: () => import('../views/Doctor/List.vue') },
 	{ name: '患者列表', path: '/Doctor/PatientList', component: () => import('../views/Doctor/PatientList.vue') }
 ]
