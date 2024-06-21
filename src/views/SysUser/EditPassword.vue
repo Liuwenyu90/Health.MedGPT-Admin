@@ -46,13 +46,9 @@ export default {
 						server.toast("修改成功", 1)
 
 						//更新用户资料
-						//***************************************
-						// console.log('789');
 						util.ReLoadLoginUser();
 						//跳转主页
-						// console.log('123');
 						_that.eyeIndex = -1;
-						// console.log('456');
 						window.parent.location.href = "/index";
 					} else {
 						server.toast(res.msg, 2)
