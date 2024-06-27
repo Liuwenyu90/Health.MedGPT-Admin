@@ -84,7 +84,7 @@ export default {
 
 			//调用接口请求大模型
 			server.send({
-				"url": "/sys/llm/send",
+				"url": "/sys/llm/kimi",
 				loading: true,
 				data: {
 					content: _txtSendContent
