@@ -1,7 +1,7 @@
 <script>
 import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue';
-import * as icon from '@element-plus/icons-vue'
+import server from '../../js/server.js';
 
 export default {
 	setup() {

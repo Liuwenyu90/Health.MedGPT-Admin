@@ -158,7 +158,7 @@ export default {
 
 	<div style="height:100%; display: flex; flex-direction: column; min-width:1024px">
 		<div style="height: 60px; min-height: 60px;"></div>
-		<div class="zhiwei_flex" style="flex:1">
+		<div style="flex:1; display: flex; justify-content: flex-start">
 			<!-- 左侧菜单 -->
 			<div style="width:240px; overflow:hidden">
 				<div style="overflow-y:scroll; width: 245px;" :style="{ 'height': win.height - 60 + 'px' }">
