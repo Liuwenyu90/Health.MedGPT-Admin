@@ -10,8 +10,8 @@ export default {
 		const _promot = {
 			"PromptId": 1,
 			"PromptIcon": "/images/icons/logo.png",
-			"PromptName": "老中医AI分身",
-			"PromptDesc": "一个老中医一个老中医一个老中医一个老中医一个老中医",
+			"PromptName": "智慧健康助手",
+			"PromptDesc": "我是中科院智慧健康AI模型，可以为您解答关于健康方面的问题！",
 		};
 
 		return {
@@ -51,7 +51,7 @@ export default {
 				_that.messageList.push({
 					"MessageId": 1,
 					"UserId": 0,
-					"MessageContent": "Hi，我是 Kimi～\n很高兴遇见你！你可以随时把网址🔗或者文件📃发给我，我来帮你看看"
+					"MessageContent": "Hi，我是智慧健康AI助手～\n请将你的问题发给我，我来帮你看看吧"
 				})
 
 			}, 500)
@@ -146,7 +146,7 @@ export default {
 				<div style="padding:10px;">
 
 					<div class="auto_hidden hidden_3" style=" color: #777; font-size:14px; word-break: break-all;">{{
-			promptModel.PromptDesc + promptModel.PromptDesc + promptModel.PromptDesc }}</div>
+			promptModel.PromptDesc }}</div>
 
 				</div>
 
@@ -166,13 +166,11 @@ export default {
 
 					<div v-if="model.UserId == 0" class="zhiwei_flex" style="padding:20px 0px">
 
-						<img style="width: 60px; height:60px"
-							src="https://statics.moonshot.cn/kimi-chat/static/01.0245bc9d.png" />
-
+						<!-- <img style="width: 60px; height:60px"
+							src="https://statics.moonshot.cn/kimi-chat/static/01.0245bc9d.png" /> -->
+						<img style="width: 50px; height:50px; margin-right: 10px" src="/images/icons/logo.png" />
 						<div style="padding: 20px; border-radius: 3px; background-color: #fff; white-space: pre-wrap;">
-
 							{{ model.MessageContent }}
-
 						</div>
 
 						<div style="min-width:100px"></div>
