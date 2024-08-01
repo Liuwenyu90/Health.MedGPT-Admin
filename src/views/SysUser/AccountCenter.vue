@@ -18,6 +18,7 @@ export default {
 				router.push(_pageUrl);
 			}
 		}
+
 	},
 	data() {
 		return {

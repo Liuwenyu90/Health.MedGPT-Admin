@@ -13,7 +13,7 @@ export default {
     const pageSize = ref(10);
     const totalItems = ref(0);
     const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value));
-	const paginatedList = computed(() => promptsList.value);
+    const paginatedList = computed(() => promptsList.value);
 
     const loginUser = ref(server.getCache("LoginUser")); // 使用server.js中的方法获取缓存
 
@@ -29,7 +29,7 @@ export default {
           loading: true, // 根据server.send的设计，设置loading遮罩
           shade: false // 设置遮罩的透明度
         });
-        
+
         if (response && response.data) {
           const data = response.data;
           promptsList.value = data.prompts.map(item => ({
@@ -65,6 +65,10 @@ export default {
       fetchData();
     });
 
+    const GoPage=function(){
+      location.href = '/Talk/Index?promptId=2'
+    }
+
     return {
       promptsList,
       currentPage,
@@ -74,51 +78,52 @@ export default {
       loginUser,
       fetchData,
       handlePageChange,
-	  paginatedList
+      paginatedList,
+      GoPage
     };
   }
 };
 </script>
 
 <template>
-	<div style="padding: 15px 20px;">
-	  <div style="padding: 20px; background-color: #ffffff; border-radius: 5px;">
-		<!-- 列表标题 -->
-		<span class="page_title">助手列表</span>
-		
-		<!-- 列表展示区域 -->
-		<div class="list-container" style="margin-top: 20px;">
-			<ul>
-				<li v-for="item in paginatedList" :key="item.id">
-					<!-- 展示列表项的相关信息 -->
-					<span>{{ prompt.prompt_name }}</span>
-					<!-- 可以根据需要添加其他字段 -->
-					<img :src="prompt.prompt_icon" alt="图标"> <!-- 假设prompt_icon是图标的URL -->
-					<p>{{ prompt.prompt_intro }}</p> <!-- 展示简介 -->
-					<!-- 其他列表项信息 -->
-				</li>
-			</ul>
-		</div>		    
-		<!-- 分页控件 -->
-		<div class="pagination-container" style="margin-top: 20px; text-align: center;">
-			<el-pagination
-				layout="prev, pager, next"
-				:total="totalItems"
-				:current-page="currentPage"
-				@current-change="handlePageChange"
-			/>
-		</div>
-	  </div>
-	</div>
-  </template>
-  
+  <div style="padding: 15px 20px;">
+    <div style="padding: 20px; background-color: #ffffff; border-radius: 5px;">
+      <!-- 列表标题 -->
+      <span class="page_title">助手列表</span>
+
+      <div @click="GoPage()">助手</div>
+
+      <!-- 列表展示区域 -->
+      <div class="list-container" style="margin-top: 20px;">
+        <ul>
+          <li v-for="item in paginatedList" :key="item.id">
+            <!-- 展示列表项的相关信息 -->
+            <span>{{ prompt.prompt_name }}</span>
+            <!-- 可以根据需要添加其他字段 -->
+            <img :src="prompt.prompt_icon" alt="图标"> <!-- 假设prompt_icon是图标的URL -->
+            <p>{{ prompt.prompt_intro }}</p> <!-- 展示简介 -->
+            <!-- 其他列表项信息 -->
+          </li>
+        </ul>
+      </div>
+      <!-- 分页控件 -->
+      <div class="pagination-container" style="margin-top: 20px; text-align: center;">
+        <el-pagination layout="prev, pager, next" :total="totalItems" :current-page="currentPage"
+          @current-change="handlePageChange" />
+      </div>
+    </div>
+  </div>
+</template>
+
 <style>
-  /* 省略其他样式 */
-  .list-container img {
-    width: 50px; /* 根据需要调整图标大小 */
-    height: auto;
-  }
-  .list-container p {
-    margin: 5px 0;
-  }
+/* 省略其他样式 */
+.list-container img {
+  width: 50px;
+  /* 根据需要调整图标大小 */
+  height: auto;
+}
+
+.list-container p {
+  margin: 5px 0;
+}
 </style>

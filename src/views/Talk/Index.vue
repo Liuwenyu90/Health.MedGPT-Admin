@@ -7,16 +7,21 @@ export default {
 	setup() {
 		const router = useRouter();
 
-		const _promot = {
-			"PromptId": 1,
-			"PromptIcon": "/images/icons/logo.png",
-			"PromptName": "智慧健康助手",
-			"PromptDesc": "我是中科院智慧健康AI模型，可以为您解答关于健康方面的问题！",
-		};
+		//  talk/index?promptId=1
+		//接收传参
+		const talkId = router.currentRoute.value.query.talkId;
+		const promptId = router.currentRoute.value.query.promptId;
+
+
+		//查询Prompt
+		//this.onLoadPrompt(promptId);
 
 		return {
+			//当前对话的ID
+			talkId: talkId,
+			promptId: promptId,
 			//助手数据
-			promptModel: _promot,
+			promptModel: null,
 			//跳转页面
 			onOpenPage(_pageUrl) {
 				router.push(_pageUrl);
@@ -35,7 +40,19 @@ export default {
 	},
 	created() {
 		this.loginUser = JSON.parse(localStorage.getItem("LoginUser"))
-		this.LoadData();
+
+
+
+		if (this.talkId > 0) {
+			console.log("talkId", this.talkId)
+			//API加载会话信息和历史消息记录
+			this.LoadTalkModel(this.talkId);
+
+		} else {
+			this.LoadData()
+			//根据传入的PromptId查询详情
+			this.onLoadPrompt(this.promptId)
+		}
 	},
 	computed: {
 		htmlContent() {
@@ -55,6 +72,43 @@ export default {
 				})
 
 			}, 500)
+		},
+		LoadTalkModel() {
+
+			//{ TalkModel:{}, PromptModel:{}, MessageList:[] }
+			server.send({
+				url: "/sys/llm/talk",
+				data: { talkId: this.talkId },
+				success: function (res) {
+					if (res != null) {
+						_that.talkModel = res.data.TalkModel
+						_that.promptModel = res.data.PromptModel
+
+						//第二种：处理消息结构
+						for (var i = 0; i < res.data.MessageList.length; i++) {
+							let message = res.data.MessageList[i]
+							_that.messageList.push({
+								"MessageId": message.Id,
+								"UserId": message.Role == "user" ? res.data.TalkModel.UserId : 0,
+								"MessageContent": message.Content
+							})
+						}
+					}
+				}
+			})
+		},
+		onLoadPrompt() {
+			var _that = this
+
+
+			//根据PromptId查询详情
+			server.send({
+				url: "/",
+				data: { promptId: this.promptId },
+				success: function () {
+					_that.promptModel = res.data
+				}
+			})
 		},
 		//发送消息
 		onSendMessage() {
@@ -87,12 +141,16 @@ export default {
 				"url": "/sys/llm/kimi",
 				loading: true,
 				data: {
+					promptId: this.promptId,
+					talkId: this.talkId,
 					content: _txtSendContent
 				},
 				success(res) {
 					if (res.code == 200 && res.data != null) {
+						_that.talkId = res.data.TalkId;
+						_that.messageList.push(res.data.MessageList)
 
-						_that.messageList.push(res.data)
+						// _that.messageList.push(res.data)
 
 						//更改滚动条
 						setTimeout(function () {
@@ -204,7 +262,8 @@ export default {
 
 			<div class="zhiwei_flex" style="padding:10px 20px; width:800px; margin: auto;">
 
-				<el-input v-model="txtSendContent" style="flex:1" placeholder="请输入您想问的问题" />
+				<el-input v-model="txtSendContent" style="flex:1" placeholder="请输入您想问的问题"
+					@keyup.enter="onSendMessage" />
 
 				<el-button v-if="txtSendContent.length > 0" type="danger" style="height:50px; width: 150px"
 					@click="onSendMessage">发送</el-button>
